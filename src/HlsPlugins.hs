@@ -97,6 +97,10 @@ import qualified Ide.Plugin.OverloadedRecordDot    as OverloadedRecordDot
 import qualified Ide.Plugin.Notes                  as Notes
 #endif
 
+-- #if hls_tidal
+import qualified Ide.Plugin.Tidal                  as Tidal
+-- #endif
+
 -- formatters
 
 #if hls_floskell
@@ -247,5 +251,8 @@ idePlugins recorder = pluginDescToIdePlugins allPlugins
 #if hls_notes
       let pId = "notes" in Notes.descriptor (pluginRecorder pId) pId :
 #endif
+-- #if hls_tidal
+      let pId = "tidal" in Tidal.descriptor (pluginRecorder pId) pId :
+-- #endif
       GhcIde.descriptors (pluginRecorder "ghcide")
 

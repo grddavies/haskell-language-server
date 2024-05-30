@@ -1834,6 +1834,40 @@ test-suite hls-notes-plugin-tests
     , hls-test-utils == 2.8.0.0
   default-extensions: OverloadedStrings
 
+-----------------------------
+-- tidal plugin
+-----------------------------
+
+flag tidal
+  description: Enable tidal plugin
+  default:     True
+  manual:      True
+
+common tidal
+  if flag(tidal)
+    build-depends: haskell-language-server:hls-tidal-plugin
+    cpp-options: -Dhls_tidal
+
+library hls-tidal-plugin
+  import: defaults, pedantic, warnings
+  if !flag(tidal)
+    buildable: False
+  exposed-modules:
+    Ide.Plugin.Tidal
+  hs-source-dirs:     plugins/hls-tidal-plugin/src
+  build-depends:
+    , base                  >=4.12 && <5
+    , containers
+    , ghcide                == 2.8.0.0
+    , hls-plugin-api        == 2.8.0.0
+    , lens
+    , lsp
+    , text
+    , dlist
+    , transformers
+  default-extensions:
+     OverloadedStrings
+
 ----------------------------
 ----------------------------
 -- HLS
@@ -1874,6 +1908,7 @@ library
                   , overloadedRecordDot
                   , semanticTokens
                   , notes
+                  , tidal
 
   exposed-modules:
     Ide.Arguments
